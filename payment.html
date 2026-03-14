@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WordLens — Subscribe to Pro</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0D1B2A;
+      color: #F5F0E8;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: #111E2D;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 32px 64px rgba(0,0,0,0.4);
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #C9A84C, #E8C56A, #C9A84C);
+      border-radius: 16px 16px 0 0;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #C9A84C;
+      margin-bottom: 24px;
+    }
+    .logo span { color: #F5F0E8; font-weight: 400; }
+
+    .plan-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 20px;
+      padding: 5px 18px;
+      font-size: 12px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #C9A84C;
+      margin-bottom: 20px;
+    }
+
+    .price {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      font-weight: 700;
+      color: #F5F0E8;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .price sup { font-size: 22px; vertical-align: super; color: #C9A84C; }
+    .price sub { font-size: 16px; font-weight: 300; color: #8A9BB0; font-family: 'DM Sans', sans-serif; }
+
+    .period {
+      font-size: 13px;
+      color: #8A9BB0;
+      margin-bottom: 28px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 32px;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      padding: 20px 0;
+    }
+
+    .features li {
+      font-size: 14px;
+      color: #8A9BB0;
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .features li::before {
+      content: '✓';
+      color: #C9A84C;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: #C9A84C;
+      color: #0D1B2A;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, transform 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn:hover { background: #E8C56A; transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .status {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #8A9BB0;
+      min-height: 20px;
+      line-height: 1.5;
+    }
+    .status.success { color: #4CAF50; }
+    .status.error   { color: #ef4444; }
+
+    .secure {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #4A5568;
+      letter-spacing: 0.04em;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 16px;
+      font-size: 12px;
+      color: #4A5568;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #C9A84C; }
+
+    @media (max-width: 480px) {
+      .card { padding: 36px 24px; }
+      .price { font-size: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">Word<span>Lens</span></div>
+    <div class="plan-badge" id="plan-badge">Pro Monthly</div>
+    <div class="price" id="price-display"><sup>₹</sup>49<sub>/mo</sub></div>
+    <div class="period" id="period-text">Billed monthly · Auto-renews via UPI Autopay</div>
+
+    <ul class="features">
+      <li>Unlimited AI-powered word lookups</li>
+      <li>IELTS &amp; CAT exam tips for every word</li>
+      <li>Word origin &amp; etymology</li>
+      <li>Related words &amp; fun facts</li>
+      <li>Personal vocabulary list</li>
+      <li>Cancel anytime from Razorpay</li>
+    </ul>
+
+    <button class="btn" id="pay-btn">Pay with Razorpay</button>
+    <div class="status" id="status"></div>
+    <div class="secure">🔒 Payments secured by Razorpay</div>
+    <a href="https://venkateshvalaboju.github.io/WordLensFL/" class="back-link">← Back to WordLens</a>
+  </div>
+
+  <script>
+    const CF_WORKER_URL = "https://wordlens-api.wordlens.workers.dev";
+    const RAZORPAY_KEY  = "rzp_live_SQ1KgQR8lFdz6t";
+
+    const params    = new URLSearchParams(window.location.search);
+    const plan      = params.get("plan")  || "pro_monthly";
+    const authToken = params.get("token") || "";
+    const userEmail = decodeURIComponent(params.get("email") || "");
+
+    const badgeEl  = document.getElementById("plan-badge");
+    const priceEl  = document.getElementById("price-display");
+    const periodEl = document.getElementById("period-text");
+    const payBtn   = document.getElementById("pay-btn");
+    const statusEl = document.getElementById("status");
+
+    if (plan === "pro_yearly") {
+      badgeEl.textContent = "Pro Yearly — Save 33%";
+      priceEl.innerHTML   = "<sup>₹</sup>399<sub>/yr</sub>";
+      periodEl.textContent = "Billed yearly · Auto-renews via UPI Autopay";
+    }
+
+    // No token = invalid link
+    if (!authToken) {
+      statusEl.textContent = "Invalid payment link. Please open this from the WordLens extension.";
+      statusEl.className   = "status error";
+      payBtn.disabled      = true;
+    }
+
+    function setStatus(msg, type) {
+      statusEl.textContent = msg;
+      statusEl.className   = "status " + (type || "");
+    }
+
+    payBtn.addEventListener("click", async () => {
+      payBtn.disabled = true;
+      setStatus("Creating subscription…");
+
+      try {
+        // Step 1 — create subscription on backend
+        const subRes  = await fetch(`${CF_WORKER_URL}/subscription/create`, {
+          method:  "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${authToken}` },
+          body:    JSON.stringify({ plan })
+        });
+        const subData = await subRes.json();
+        if (!subData.success) throw new Error(subData.error || "Could not create subscription. Please try again.");
+
+        setStatus("Opening Razorpay…");
+
+        // Step 2 — open Razorpay checkout (script already loaded in <head>)
+        new Razorpay({
+          key:             RAZORPAY_KEY,
+          subscription_id: subData.subscriptionId,
+          name:            "WordLens",
+          description:     plan === "pro_yearly" ? "Pro Yearly (autopay)" : "Pro Monthly (autopay)",
+          prefill:         { email: userEmail },
+          theme:           { color: "#C9A84C" },
+          handler: async (response) => {
+            setStatus("Verifying payment…");
+            try {
+              const verRes  = await fetch(`${CF_WORKER_URL}/payment/verify`, {
+                method:  "POST",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${authToken}` },
+                body:    JSON.stringify({
+                  razorpay_payment_id:      response.razorpay_payment_id,
+                  razorpay_subscription_id: response.razorpay_subscription_id,
+                  razorpay_signature:       response.razorpay_signature,
+                  plan
+                })
+              });
+              const verData = await verRes.json();
+              if (verData.success) {
+                setStatus("✓ Pro activated! You can close this tab and return to your extension.", "success");
+                payBtn.style.display = "none";
+                // Notify extension
+                if (window.opener) {
+                  window.opener.postMessage({ type: "wl-pro-activated", token: verData.token || authToken }, "*");
+                }
+              } else {
+                throw new Error(verData.error || "Verification failed. Contact support.");
+              }
+            } catch (e) {
+              setStatus(e.message, "error");
+              payBtn.disabled = false;
+            }
+          },
+          modal: {
+            ondismiss: () => {
+              setStatus("Payment cancelled. You can try again.", "error");
+              payBtn.disabled = false;
+            }
+          }
+        }).open();
+
+        setStatus("");
+
+      } catch (e) {
+        setStatus(e.message || "Something went wrong. Try again.", "error");
+        payBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
