@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WordLens — Pro Activated!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0D1B2A; color: #F5F0E8;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: #111E2D;
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 400px; width: 100%;
+      text-align: center;
+    }
+    .icon { font-size: 56px; margin-bottom: 24px; }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; color: #C9A84C;
+      margin-bottom: 12px;
+    }
+    p { font-size: 15px; color: #8A9BB0; line-height: 1.6; }
+    .close-hint {
+      margin-top: 24px; font-size: 13px;
+      color: #4A5568; font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">✦</div>
+    <h1>Pro Activated!</h1>
+    <p>Your WordLens Pro subscription is now active.<br>Unlimited AI lookups are unlocked.</p>
+    <p class="close-hint">You can close this tab and return to your browser.</p>
+  </div>
+  <script>
+    // Extension intercepts this URL via chrome.tabs.onUpdated
+    // This page is just a visual confirmation for the user
+  </script>
+</body>
+</html>
