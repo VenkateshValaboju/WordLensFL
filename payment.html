@@ -255,10 +255,9 @@
               if (verData.success) {
                 setStatus("✓ Pro activated! You can close this tab and return to your extension.", "success");
                 payBtn.style.display = "none";
-                // Notify extension
-                if (window.opener) {
-                  window.opener.postMessage({ type: "wl-pro-activated", token: verData.token || authToken }, "*");
-                }
+                // Notify extension by redirecting to a special URL it intercepts
+                const newToken = encodeURIComponent(verData.token || authToken);
+                window.location.href = `https://venkateshvalaboju.github.io/WordLensFL/payment-success.html?token=${newToken}`;
               } else {
                 throw new Error(verData.error || "Verification failed. Contact support.");
               }
